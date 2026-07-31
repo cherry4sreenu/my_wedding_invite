@@ -912,7 +912,7 @@
         /* View Counter */
         async function updateViewCounter() {
             try {
-                const response = await fetch('https://api.counterapi.dev/v1/sreenu-cherry-wedding/visits/up');
+                const response = await fetch('https://api.counterapi.dev/v1/sreenu4cherry-wedding/visits/up');
                 const data = await response.json();
                 if (data && data.count) {
                     document.getElementById('view-count').innerText = data.count.toLocaleString();
