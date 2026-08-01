@@ -40,7 +40,27 @@
             overflow: hidden !important;
             touch-action: none;
         }
+        /* --- Main Couple Photo Arch Frame --- */
+        .hero-image-frame {
+            width: 100%;
+            max-width: 290px;
+            height: 380px;
+            margin: 0 auto 30px;
+            border-radius: 150px 150px 16px 16px; 
+            padding: 8px;
+            background: var(--white);
+            box-shadow: 0 12px 30px rgba(106, 11, 18, 0.15); /* Soft maroon shadow */
+            border: 1px solid var(--main-accent);
+            position: relative;
+        }
 
+        .hero-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 142px 142px 10px 10px;
+            object-position: center 25%; /* Keeps your faces perfectly centered */
+        }
         /* --- Falling Petals --- */
         .petals-container {
             position: fixed;
@@ -489,12 +509,18 @@
         </div>
 
         <div class="couple-card">
+            
+            <!-- Beautiful Arched Couple Photo -->
+            <div class="hero-image-frame">
+                <img src="images/sreenu4cherry_main.jpeg" alt="Sreenu & Cherry">
+            </div>
+
             <div class="couple-names">
-                <h2>K. Charitha</h2>
-                <p class="parent-subtext">D/o K. Lakshmi Narayana & K. Padmavati</p>
-                <div class="ampersand">&</div>
                 <h2>B. Sreenivasulu</h2>
                 <p class="parent-subtext">S/o B. Ramanjulu & B. LakshmiDevi</p>
+                <div class="ampersand">&</div>
+                <h2>K. Charitha</h2>
+                <p class="parent-subtext">D/o K. L. Narayana & K. Padmavati</p>
             </div>
         </div>
 
