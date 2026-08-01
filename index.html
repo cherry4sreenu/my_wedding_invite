@@ -52,6 +52,7 @@
             box-shadow: 0 12px 30px rgba(106, 11, 18, 0.15); /* Soft maroon shadow */
             border: 1px solid var(--main-accent);
             position: relative;
+            cursor: pointer;
         }
 
         .hero-image-frame img {
@@ -61,6 +62,28 @@
             border-radius: 142px 142px 10px 10px;
             object-position: center 25%; /* Keeps your faces perfectly centered */
         }
+
+        /* Zoom indicator badge for hero photo */
+        .hero-zoom-badge {
+            position: absolute;
+            bottom: 18px;
+            right: 18px;
+            width: 38px;
+            height: 38px;
+            background: var(--white);
+            border: 1px solid var(--main-accent);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+        .hero-image-frame:hover .hero-zoom-badge {
+            transform: scale(1.1);
+        }
+
         /* --- Falling Petals --- */
         .petals-container {
             position: fixed;
@@ -463,6 +486,29 @@
         .reveal-image { width: 100%; height: 100%; object-fit: contain; display: block; background: var(--white); }
         .modal-scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; z-index: 5; touch-action: none; transition: opacity 0.5s ease; }
         .modal-instruction { color: var(--white); font-size: 0.85rem; letter-spacing: 1px; margin-top: 15px; text-transform: uppercase; font-weight: 500; }
+
+        /* Fullscreen Hero Image Modal View styles */
+        .hero-modal-box {
+            position: relative;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            border-radius: 20px;
+            border: 3px solid var(--main-accent);
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            background: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-modal-box img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -510,9 +556,10 @@
 
         <div class="couple-card">
             
-            <!-- Beautiful Arched Couple Photo -->
-            <div class="hero-image-frame">
+            <!-- Beautiful Arched Couple Photo with Viewable Zoom capability -->
+            <div class="hero-image-frame" onclick="openHeroModal()">
                 <img src="images/sreenu4cherry_main.jpeg" alt="Sreenu & Cherry">
+                <div class="hero-zoom-badge">🔍</div>
             </div>
 
             <div class="couple-names">
@@ -542,30 +589,7 @@
         <!-- Timeline Section -->
         <div class="timeline">
 
-            <!-- <!-- EVENT 1: PASUPU DANCHADAM -->
-            <div class="timeline-item">
-                <div class="timeline-node"></div>
-                <div class="event-card-container">
-                    <div class="event-info">
-                        <div class="event-date">Saturday, 1 August 2026</div>
-                        <h3 class="event-title">Pasupu Danchadam Ceremony</h3>
-                        <div class="event-venue">📍 10:30 AM Onwards • At Home, Anantapur</div>
-                        <p class="event-desc">"The traditional pounding of turmeric roots for auspicious beginnings."</p>
-
-                        <div class="btn-group">
-                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pasupu+Danchadam+-+Sreenu+%26+Cherry&dates=20260801T050000Z/20260801T070000Z&details=Pasupu+Danchadam+Ceremony&location=Anantapur" target="_blank" class="action-btn btn-cal">📅 Add to Cal</a>
-                        </div>
-                    </div>
-                    <div class="card-preview-wrap" onclick="openScratchModal('pasupu')">
-                        <div class="art-card-thumb">
-                            <img src="images/pasupu-reveal.jpeg" alt="Pasupu Danchadam">
-                        </div>
-                        <div class="rub-tag">✨ Rub To Reveal</div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- EVENT 2: MEHENDI -->
+            <!-- EVENT 1: MEHENDI -->
             <div class="timeline-item">
                 <div class="timeline-node"></div>
                 <div class="event-card-container">
@@ -588,7 +612,7 @@
                 </div>
             </div>
 
-            <!-- EVENT 3: HALDI -->
+            <!-- EVENT 2: HALDI -->
             <div class="timeline-item">
                 <div class="timeline-node"></div>
                 <div class="event-card-container">
@@ -615,7 +639,7 @@
                 </div>
             </div>
 
-            <!-- EVENT 4: RECEPTION (ANANTAPUR) -->
+            <!-- EVENT 3: RECEPTION (ANANTAPUR) -->
             <div class="timeline-item">
                 <div class="timeline-node"></div>
                 <div class="event-card-container">
@@ -639,7 +663,7 @@
                 </div>
             </div>
 
-            <!-- EVENT 5: MUHURTHAM -->
+            <!-- EVENT 4: MUHURTHAM -->
             <div class="timeline-item">
                 <div class="timeline-node"></div>
                 <div class="event-card-container">
@@ -669,7 +693,6 @@
         <div id="gallery-section">
             <h2 class="section-title">Wedding Moments</h2>
             <div class="gallery-grid">
-                <div class="gallery-item"><img src="images/pasupu-reveal.jpeg" alt="Gallery photo 1"></div>
                 <div class="gallery-item"><img src="images/mehendi-reveal.jpeg" alt="Gallery photo 2"></div>
                 <div class="gallery-item"><img src="images/haldi-reveal.jpeg" alt="Gallery photo 3"></div>
                 <div class="gallery-item"><img src="images/reception-reveal.jpeg" alt="Gallery photo 4"></div>
@@ -739,6 +762,15 @@
             <canvas id="modal-canvas" class="modal-scratch-canvas" width="300" height="420"></canvas>
         </div>
         <div class="modal-instruction">👈 Rub screen to reveal event image 👉</div>
+    </div>
+
+    <!-- Hero Image Viewable Modal Overlay -->
+    <div class="modal-overlay" id="hero-modal">
+        <div class="close-modal-btn" onclick="closeHeroModal()">✕</div>
+        <div class="hero-modal-box">
+            <img src="images/sreenu4cherry_main.jpeg" alt="Sreenu & Cherry Full View">
+        </div>
+        <div class="modal-instruction">✨ Sreenu & Cherry ✨</div>
     </div>
 
     <script>
@@ -965,6 +997,17 @@
             petalsContainer.appendChild(petal);
         }
 
+        /* Hero Image Modal View Functions */
+        const heroModal = document.getElementById('hero-modal');
+        function openHeroModal() {
+            document.body.classList.add('modal-open');
+            heroModal.classList.add('active');
+        }
+        function closeHeroModal() {
+            heroModal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
         /* Scratch Modal Logic */
         const modal = document.getElementById('scratch-modal');
         const modalCanvas = document.getElementById('modal-canvas');
@@ -973,7 +1016,6 @@
         let scratchCount = 0;
 
         const eventData = {
-            'pasupu': { img: 'images/pasupu-reveal.jpeg', scratchColor: '#A9A9A9' },
             'mehendi': { img: 'images/mehendi-reveal.jpeg', scratchColor: '#A9A9A9' },
             'haldi': { img: 'images/haldi-reveal.jpeg', scratchColor: '#A9A9A9' },
             'reception': { img: 'images/reception-reveal.jpeg', scratchColor: '#A9A9A9' },
